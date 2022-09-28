@@ -29,7 +29,7 @@ public class Catalog {
 
     @Column(nullable = false, updatable = false, insertable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
-    private Date createAt;
+    private Date createdAt;
 
     public Catalog() {
 
@@ -59,7 +59,7 @@ public class Catalog {
         return unitPrice;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }
