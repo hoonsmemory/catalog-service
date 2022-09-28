@@ -1,5 +1,6 @@
 package me.hoon.catalogservice.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.hoon.catalogservice.domain.Catalog;
 import me.hoon.catalogservice.repository.CatalogRepository;
 import org.modelmapper.ModelMapper;
@@ -16,14 +17,19 @@ import java.util.UUID;
 public class AppConfig {
 
     @Bean
-    ModelMapper modelMapper() {
+    public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
     }
 
     @Bean
-    ApplicationRunner applicationRunner() {
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+
+    @Bean
+    public ApplicationRunner applicationRunner() {
         return new ApplicationRunner() {
 
             @Autowired
