@@ -62,4 +62,8 @@ public class Catalog {
     public Date getCreatedAt() {
         return createdAt;
     }
+
+    public void changeStock(Integer stock) {
+        this.stock = stock;
+    }
 }
