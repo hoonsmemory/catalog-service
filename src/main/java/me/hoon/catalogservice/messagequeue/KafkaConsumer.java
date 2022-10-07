@@ -10,6 +10,7 @@ import me.hoon.catalogservice.exception.CatalogNotFoundException;
 import me.hoon.catalogservice.repository.CatalogRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +26,10 @@ public class KafkaConsumer {
     private final CatalogRepository catalogRepository;
     private final ObjectMapper objectMapper;
 
+    @Transactional
     @KafkaListener(topics = "example-catalog-topic")
     public void updateQuantity(String kafkaMessage) {
-        log.info("kafka Message ->", kafkaMessage);
+        log.info("kafka Message -> {}", kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
 
@@ -41,7 +43,7 @@ public class KafkaConsumer {
         Catalog findCatalog = catalogRepository.findByProductId((String) map.get("productId"))
                 .orElseThrow(() -> new CatalogNotFoundException());
 
-        findCatalog.changeStock((Integer) map.get("quantity"));
+        findCatalog.changeStock(findCatalog.getStock() - (Integer) map.get("quantity"));
     }
 
 }
